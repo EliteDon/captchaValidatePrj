@@ -61,7 +61,9 @@ export default {
     },
     async fetchCaptcha () {
       try {
-        const { data } = await post('/captcha/request', {})
+        const payload = {}
+        if (this.form.username) payload.username = this.form.username
+        const { data } = await post('/captcha/request', payload)
         if (data.data) {
           this.captcha.challenge = data.data
           this.captcha.visible = true

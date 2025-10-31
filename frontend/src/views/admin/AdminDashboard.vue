@@ -79,10 +79,8 @@ export default {
   },
   methods: {
     async loadCaptchaTypes () {
-      const { data } = await get('/admin/captcha_types')
-      if (data.success) {
-        this.captchaTypes = data.data.items
-      }
+      const res = await get('/admin/captcha_types')
+      if (res.data.success) this.captchaTypes = res.data.data.items
     },
     async loadLoginRecords () {
       const { data } = await get('/admin/login_records')
@@ -98,7 +96,7 @@ export default {
         description: item.description,
         config: item.config
       })
-      await this.loadCaptchaTypes()
+      this.loadCaptchaTypes()
     },
     async toggleEnabled (item) {
       await post('/admin/captcha_types', {
@@ -108,11 +106,11 @@ export default {
         description: item.description,
         config: item.config
       })
-      await this.loadCaptchaTypes()
+      this.loadCaptchaTypes()
     },
     async disableType (item) {
       await del('/admin/captcha_types', { type_name: item.type_name })
-      await this.loadCaptchaTypes()
+      this.loadCaptchaTypes()
     }
   },
   async mounted () {

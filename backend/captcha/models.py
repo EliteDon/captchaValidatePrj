@@ -5,11 +5,11 @@ from django.db import models
 
 
 class CaptchaType(models.Model):
-    type_name = models.CharField(max_length=100, unique=True)
-    description = models.CharField(max_length=255, blank=True)
-    config_json = models.TextField(blank=True)
-    is_default = models.BooleanField(default=False)
+    type_name = models.CharField(max_length=50, unique=True)
+    description = models.CharField(max_length=200, blank=True)
+    config_json = models.TextField(blank=True, default='{}')
     enabled = models.BooleanField(default=True)
+    is_default = models.BooleanField(default=False)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:

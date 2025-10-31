@@ -1,7 +1,11 @@
 import os
 from pathlib import Path
 
+from dotenv import load_dotenv
+
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+load_dotenv()
 
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'dev-secret-key-change-me')
 
@@ -53,17 +57,30 @@ ASGI_APPLICATION = 'captcha_backend.asgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': os.environ.get('DJANGO_DB_ENGINE', 'mssql'),
-        'NAME': os.environ.get('DJANGO_DB_NAME', 'captcha_validate_system'),
-        'USER': os.environ.get('DJANGO_DB_USER', 'sa'),
-        'PASSWORD': os.environ.get('DJANGO_DB_PASSWORD', 'root'),
-        'HOST': os.environ.get('DJANGO_DB_HOST', 'localhost'),
-        'PORT': os.environ.get('DJANGO_DB_PORT', '1433'),
+        'ENGINE': os.getenv('DB_ENGINE', 'mssql'),
+        'NAME': os.getenv('DB_NAME', 'captcha_validate_system'),
+        'USER': os.getenv('DB_USER', 'sa'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'root'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '1433'),
         'OPTIONS': {
-            'driver': os.environ.get('DJANGO_DB_DRIVER', 'ODBC Driver 18 for SQL Server'),
+            'driver': os.getenv('DB_DRIVER', 'ODBC Driver 18 for SQL Server'),
         },
     }
 }
+
+EMAIL_BACKEND = os.getenv('EMAIL_BACKEND', 'django.core.mail.backends.smtp.EmailBackend')
+EMAIL_HOST = os.getenv('EMAIL_HOST', '')
+EMAIL_PORT = int(os.getenv('EMAIL_PORT', 587))
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', 'True') == 'True'
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+DEFAULT_FROM_EMAIL = os.getenv('DEFAULT_FROM_EMAIL', EMAIL_HOST_USER)
+
+TWILIO_ACCOUNT_SID = os.getenv('TWILIO_ACCOUNT_SID', '')
+TWILIO_AUTH_TOKEN = os.getenv('TWILIO_AUTH_TOKEN', '')
+TWILIO_PHONE_NUMBER = os.getenv('TWILIO_PHONE_NUMBER', '')
+TEST_PHONE_NUMBER = os.getenv('TEST_PHONE_NUMBER', '')
 
 AUTH_PASSWORD_VALIDATORS = [
     {
